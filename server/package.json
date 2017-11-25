@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "express": "^4.16.2",
+    "moment": "^2.19.2",
     "mysql": "^2.15.0"
   }
 }

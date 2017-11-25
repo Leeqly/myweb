@@ -30,7 +30,7 @@
 			</div>
 			<div class="form-group">
 	  			<label>密码：</label>
-	  			<el-input size="small" placeholder="请输入密码" v-model="loginPassword"></el-input>
+	  			<el-input type="password" size="small" placeholder="请输入密码" v-model="loginPassword"></el-input>
 			</div>
 		</span>
 		<span slot="footer" class="dialog-footer">
@@ -42,16 +42,15 @@
 		<span>
 			<div class="form-group">
 	  			<label>用户名</label>
-	  			<el-input size="small" placeholder="请输入用户名" v-model="regUsername" v-verify.grow1="regUsername"></el-input>
-	  			<label v-verified="verifyError.regUsername"></label>
+	  			<el-input size="small" placeholder="请输入用户名" v-model="regUsername"></el-input>
 			</div>
 			<div class="form-group">
 	  			<label>密码</label>
-	  			<el-input size="small" placeholder="请输入密码" v-model="regPassword"></el-input>
+	  			<el-input type="password" size="small" placeholder="请输入密码" v-model="regPassword"></el-input>
 			</div>
 			<div class="form-group">
 	  			<label>密码确认	</label>
-	  			<el-input size="small" placeholder="请再次输入密码" v-model="regRePassword"></el-input>
+	  			<el-input type="password" size="small" placeholder="请再次输入密码" v-model="regRePassword"></el-input>
 			</div>
 		</span>
 		<span slot="footer" class="dialog-footer">
@@ -70,8 +69,6 @@ import Vue from 'vue'
 import axios from 'axios'
 import { blankCheck } from './public/public'
 import { Row,Col,Container,Header,Main,Dialog,Button,Input,Popover } from 'element-ui'
-import verify from "vue-verify-plugin";
-Vue.use(verify);
 
 Vue.use(Row)
 Vue.use(Col)
@@ -116,36 +113,18 @@ export default {
 			});
       	},
       	toRegister(){
-      		if(this.$verify.check()){
-                console.log('通过验证');
-            }
-   //    		axios.post('http://10.10.32.101/bbs/index.php/Index/Login/toLogin',{
-   //    			username: 2,
-   //    			password: 3
-   //    		}).then( (response)=>{
-			// 	console.log(response.data);
-			// });
+      		axios.post('http://localhost:7857/register',{
+      			username: this.regUsername,
+      			password: this.regPassword,
+      			password2: this.regRePassword
+      		}).then( (response)=>{
+				if(response.data.code == '1'){
+					this.innerVisible = true;
+				}else{
+					alert(response.data.message)
+				}
+			});
       	}
-    },
-    verify: {
-    	regUsername: [
-    		"required",
-    		{
-    			test: function(val){
-    				if(val.length < 2){
-    					return false;
-    				}
-    				return true;
-    			},
-    			message: '账户名不得小于2位'
-    		}
-    	],
-    	regPassword: 'required'
-    },
-    computed:{
-        verifyError:function(){
-            return this.$verify.$errors;
-        }
     },
     components: { headerNav }
 }
