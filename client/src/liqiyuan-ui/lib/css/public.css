@@ -1,0 +1,160 @@
+/*全局定义，样式统一*/
+body{
+	margin: 0;
+	padding: 0 0 50px 0
+}
+body,input,button{
+	font-family: "Helvetica Neue",Helvetica,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","微软雅黑",Arial,sans-serif;
+	font-size: 14px;
+	color: #323232
+}
+.lui-container{
+	width: 1140px;
+	margin: 0 auto
+}
+.f-left{
+	float: left
+}
+.f-right{
+	float: right
+}
+.f-clear{
+	clear: both
+}
+.form-group{
+	clear: both;
+	margin-bottom: 15px
+}
+.f-clear:after,.form-group:after{
+	content: '';
+	display: block;
+	clear: both;
+	height: 0
+}
+.t-left{
+	text-align: left
+}
+.t-right{
+	text-align: right
+}
+.t-center{
+	text-align: center
+}
+a{
+	text-decoration: none
+}
+h1,h2,h3,h4,h5,p{
+	margin: 0;
+	padding: 0
+}
+.error{
+	color: #fa5555
+}
+.error-input input{
+	border: 1px solid #fa5555
+}
+.hide{
+	display: none
+}
+.show{
+	display: block
+}
+
+
+/*button*/
+.lui-btn{
+	display: inline-block;
+    cursor: pointer;
+    background: #fff;
+    border: 1px solid #c8c8c8;
+    text-align: center;
+    transition: .1s;
+    padding: 5px 15px;
+    border-radius: 2px;
+    outline: none;
+}
+.lui-btn:hover{
+	border-color: #409eff;
+	color: #2a87ff;
+	background: #ecf5ff
+}
+
+/*input*/
+.lui-input{
+	outline: none;
+	border-radius: 2px;
+	padding: 7px 10px;
+    border: 1px solid #c8c8c8;
+    transition: .2s;
+}
+.lui-input:hover{
+	border-color: #a0a0a0
+}
+.lui-input:focus{
+	border-color: #409eff;
+}
+
+/*message*/
+.message-box{
+	position: fixed;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	text-align: center;
+	background: rgba(0,0,0,.2);
+	opacity: 0;
+	transition: .3s;
+	z-index: 2011128
+}
+.message-box:after{
+	content: "";
+    display: inline-block;
+    height: 100%;
+    width: 0;
+    vertical-align: middle;
+}
+.msg-content,.alert-content,.confirm-content{
+	display: inline-block;
+	vertical-align: middle;
+	border: 1px solid #dcdcdc;
+	border-radius: 5px;
+	text-align: center;
+	box-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+	background: #fff;
+	padding: 10px 20px;
+}
+.message-box .header{
+	text-align: left;
+	font-size: 16px;
+}
+.message-box .content{
+	margin: 20px 0
+}
+.message-box .lui-btn{
+	float: right;
+	margin: 0 -5px 0 15px
+}
+.message-box .header .iconfont{
+	float: right;
+	margin-right: -5px
+}
+.message-box .header .iconfont:hover{
+	cursor: pointer;
+	color: #2a87ff
+}
+
+/*栅格系统*/
+[class*=lui-col-]{ float: left }
+.lui-col-1{ width: 8.33333% }
+.lui-col-2{ width: 16.66666% }
+.lui-col-3{ width: 25% }
+.lui-col-4{ width: 33.33333% }
+.lui-col-5{ width: 41.66667% }
+.lui-col-6{ width: 50% }
+.lui-col-7{ width: 58.33333% }
+.lui-col-8{ width: 66.66667% }
+.lui-col-9{ width: 75% }
+.lui-col-10{ width: 83.33333% }
+.lui-col-11{ width: 91.66667% }
+.lui-col-12{ width: 100% }

@@ -1,6 +1,10 @@
 <!-- 一个template（组件）下只能有一个并列的div -->
 <template>
-<div id="app">
+<div id="myweb">
+	<headerNav></headerNav>
+	<router-view class="view"></router-view>
+</div>
+<!-- <div id="app">
 	<el-container>
 		<el-header>
 			<el-row>
@@ -25,7 +29,7 @@
 	<el-dialog class="dialog" :visible.sync="loginShow" :before-close="loginClose" width="500px">
 		<span>
 			<div class="form-group">
-	  			<label>账号：</label>
+	  			<label>账12号：</label>
 	  			<el-input size="small" placeholder="请输入账号" v-model="loginUsername"></el-input>
 			</div>
 			<div class="form-group">
@@ -59,42 +63,31 @@
 	  	</span>
 	  	<el-dialog :visible.sync="innerVisible" append-to-body width="20%">注册成功</el-dialog>
 	</el-dialog>	
-</div>
+</div> -->
 </template>
 
 <script>
 
+import lui from './liqiyuan-ui'
 import headerNav from './component/header-nav.vue'
 import Vue from 'vue'
 import axios from 'axios'
-import { blankCheck } from './public/public'
-import { Row,Col,Container,Header,Main,Dialog,Button,Input,Popover } from 'element-ui'
-
-Vue.use(Row)
-Vue.use(Col)
-Vue.use(Container)
-Vue.use(Header)
-Vue.use(Main)
-Vue.use(Dialog)
-Vue.use(Button)
-Vue.use(Input)
-Vue.use(Popover)
 
 export default {
 	data () {
 		return {
-			msg: 'My Website',
-			loginShow: false,
-			registerShow: false,
-      		loginUsername: '',
-      		loginPassword: '',
-      		regUsername: '',
-      		regPassword: '',
-      		regRePassword: '',
-      		innerVisible: false,
-      		usernameInfo: '',
-      		passwordInfo: '',
-      		rePasswordInfo: ''
+			// msg: 'My Website',
+			// loginShow: false,
+			// registerShow: false,
+   //    		loginUsername: '',
+   //    		loginPassword: '',
+   //    		regUsername: '',
+   //    		regPassword: '',
+   //    		regRePassword: '',
+   //    		innerVisible: false,
+   //    		usernameInfo: '',
+   //    		passwordInfo: '',
+   //    		rePasswordInfo: ''
 		}
 	},
     methods: {
@@ -124,47 +117,23 @@ export default {
 					alert(response.data.message)
 				}
 			});
-      	}
+      	},
     },
-    components: { headerNav }
+    mounted: function(){
+    	
+    },
+    components: {
+    	headerNav
+    }
 }
+
+
+
 </script>
 
 
 <style>
 
-@import url('./public/public.css');
-
-#app > section > header{
-	position: fixed;
-	width: 100%;
-	background: #409eff;
-	color: #fff;
-	line-height: 60px
-}
-#app > section > main{
-	width: 1140px;
-	margin: 60px auto 0 auto
-}
-
-#auth{
-	text-align: right;
-	margin-right: 60px
-}
-#auth a:nth-child(1){
-	color: #fff;
-	padding-right: 15px;
-	border-right: solid 1px rgb(180,180,180)
-}
-#auth a:nth-child(2){
-	color: #fff;
-	padding-left: 11px;
-}
-#auth a:hover{
-	color: #d8dce5
-}
-.dialog{
-	background:rgba(0,0,0,0.1);
-}
+	@import '//at.alicdn.com/t/font_357933_wtyqxqj3ba9k9.css';
 
 </style>

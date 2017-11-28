@@ -1,7 +1,16 @@
 <template>
 	<div id="header-nav">
-		<!-- 当v-for作用于组件上时，需要加key -->
-		<router-link v-for="(item,index) in navList" :key="index" v-bind:to="item.href"> {{ item.name }} </router-link>
+		<div class="lui-col-2">
+			<p class="logo-replace">{{ logo }}</p>
+		</div>
+		<div class="lui-col-8">
+			<!-- 当v-for作用于组件上时，需要加key -->
+			<router-link v-for="(item,index) in navList" :key="index" v-bind:to="item.href"> {{ item.name }} </router-link>
+		</div>
+		<div class="lui-col-2">
+			<a href="javascript:;" @click="loginShow=true">登录</a>
+			<a href="javascript:;" @click="registerShow=true">注册</a>
+		</div>
 	</div>
 </template>
  
@@ -20,7 +29,8 @@ export default {
 				{ name: '技术天地', href: '/technology' },
 				{ name: '常去网址', href: '/used-website' },
 				{ name: '美图欣赏', href: '/picture-enjoy' }
-			]
+			],
+			logo: 'myweb'
 		}
 	}
 }
@@ -28,7 +38,11 @@ export default {
  
 <style>
 #header-nav{
-	text-align: center
+	height: 55px;
+	line-height: 55px;
+	background: #409eff;
+	text-align: center;
+	font-size: 16px
 }
 #header-nav a{
 	color: #fff;
@@ -36,5 +50,13 @@ export default {
 }
 #header-nav a:hover{
 	color: #d8dce5
+}
+#header-nav .logo-replace{
+	color: #fff;
+	font-size: 16px;
+	font-weight: 600
+}
+#header-nav .lui-col-2{
+	font-size: 14px
 }
 </style>
