@@ -1,7 +1,13 @@
 <template>
 	<div id="index">
-		主页<br>主页<br>主页<br>主页<br>主页<br>主页<br>主页<br>主页<br>主页<br>主页<br>主页<br>主页<br>
-		主页<br>主页<br>主页<br>主页<br>主页<br>主页
+		<div class="form-group-block">
+			<label>账号</label>
+			<input type="text" class="lui-input">
+		</div>
+		<div class="form-group-inline">
+			<label>账号</label>
+			<input type="text" class="lui-input">
+		</div>
 	</div>
 </template>
  

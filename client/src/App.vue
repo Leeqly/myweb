@@ -134,6 +134,6 @@ export default {
 
 <style>
 
-	@import '//at.alicdn.com/t/font_357933_wtyqxqj3ba9k9.css';
+	/*@import '//at.alicdn.com/t/font_357933_wtyqxqj3ba9k9.css';*/
 
 </style>

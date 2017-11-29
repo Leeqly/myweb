@@ -1,4 +1,4 @@
-import { newNode, bodyAppend, removeNode, delay, $id, $class } from './public'
+import { newNode, bodyAppend, removeNode, $id, $class } from './public'
 
 // 普通提示（提示后自动关闭）
 let msg = (info)=>{
@@ -34,8 +34,8 @@ let alert = (info)=>{
 	setTimeout( ()=>{
 		html.style.opacity = '1'
 	},10)
-	var dom = $class('close');
-	for(var i = 0;i<dom.length;i++){
+	let dom = $class('close');
+	for(let i = 0;i<dom.length;i++){
 		dom[i].onclick = ()=>{
 			html.style.opacity = '0'
 			setTimeout( ()=>{
@@ -81,4 +81,16 @@ let confirm = (info, fn)=>{
 	}
 }
 
-export { msg, alert, confirm }
+// 关闭dialog框
+let dialogClose = ()=>{
+	let node = $class('dialog-box')
+	console.log(node[0])
+	node[0].onclick = ()=>{
+		node[0].style.opacity = '0'
+		setTimeout( ()=>{
+			node[0].style.display = 'none'
+		},300)
+	}
+}
+
+export { msg, alert, confirm, dialogClose }
