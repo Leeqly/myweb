@@ -6,6 +6,7 @@ let msg = (info)=>{
 	html.className = 'message-box'
 	html.innerHTML = `<div class="msg-content">${info}</div>`
 	bodyAppend(html)
+	html.style.display = 'block'
 	setTimeout( ()=>{
 		html.style.opacity = '1'
 	},10)
@@ -31,6 +32,7 @@ let alert = (info)=>{
 		</div>
 		`
 	bodyAppend(html)
+	html.style.display = 'block'
 	setTimeout( ()=>{
 		html.style.opacity = '1'
 	},10)
@@ -60,6 +62,7 @@ let confirm = (info, fn)=>{
 		</div>
 		`
 	bodyAppend(html)
+	html.style.display = 'block'
 	setTimeout( ()=>{
 		html.style.opacity = '1'
 	},10)
@@ -81,16 +84,32 @@ let confirm = (info, fn)=>{
 	}
 }
 
+// 打开dialog框
+let openDialog = (id)=>{
+	let node = $id(id)
+	node.style.display = 'block'
+	setTimeout( ()=>{
+		node.style.opacity = '1'
+	},10)
+}
+
 // 关闭dialog框
-let dialogClose = ()=>{
-	let node = $class('dialog-box')
-	console.log(node[0])
-	node[0].onclick = ()=>{
-		node[0].style.opacity = '0'
+let closeDialog = (id)=>{
+	if(id){
+		let node = $id(id)
+		node.style.opacity = '0'
 		setTimeout( ()=>{
-			node[0].style.display = 'none'
+			node.style.display = 'none'
 		},300)
+	}else{
+		let dom = $class('dialog-box');
+		for(let i = 0;i<dom.length;i++){
+			dom[i].style.opacity = '0'
+			setTimeout( ()=>{
+				dom[i].style.display = 'none'
+			},300)
+		}
 	}
 }
 
-export { msg, alert, confirm, dialogClose }
+export { msg, alert, confirm, closeDialog, openDialog }

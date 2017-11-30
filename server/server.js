@@ -22,10 +22,18 @@ app.all('*', function(req, res, next){
 app.post('/login', function(req, res){
     let username = req.body.username
     let password = util.md5(req.body.password)
-    let sql = 'select 1 from username where username = "' + username + '" and password = "' + password + '" limit 1'
+    let sql = 'select id from username where username = "' + username + '" and password = "' + password + '" limit 1'
     util.query(sql, function(result){
         if(result[0]){
-            res.send({code:'1', message: '登录成功'})
+            let time = moment().format('YYYY-MM-DD HH:mm:ss')
+            let id = result[0].id
+            let updateSql = 'update username set loginTime = ? where id = ?'
+            let updateParams = [time, id]
+            util.update(updateSql, updateParams, function(result2){
+                if(result2.affectedRows){
+                    res.send({code:'1', message: '登录成功'})
+                }
+            })
         }else{
             res.send({code:'0', message: '账号名或密码错误'})
         }
@@ -35,17 +43,21 @@ app.post('/login', function(req, res){
 // 注册
 app.post('/register', function(req, res){
     let username = req.body.username
-    let password = util.md5(req.body.password)
-    let password2 = util.md5(req.body.password2)
+    let password = req.body.password
+    let password2 = req.body.password2
     if(username == ''){
         res.send({code:'0', message: '用户名不能为空'})
+        return
     }
     if(password == ''){
         res.send({code:'0', message: '密码不能为空'})
+        return
     }
     if(password != password2){
         res.send({code:'0', message: '两次输入的密码不一致'})
+        return
     }
+    password = util.md5(password)
     let id = util.md5(username + moment().format('X'))
     let now = moment().format('YYYY-MM-DD HH:mm:ss')
     let insertSql = 'insert into username(id, username, nickname, password, regTime) values(?, ?, ?, ?, ?)'
@@ -55,14 +67,42 @@ app.post('/register', function(req, res){
         if(result[0]){
             res.send({code:'0', message: '此用户名已被注册'})
         }else{
-            util.insert(insertSql, params, function(result){
-                if(result.affectedRows){
+            util.insert(insertSql, params, function(result2){
+                if(result2.affectedRows){
                     res.send({code: '1', message: '注册成功'})
                 }
             })
         }
     })
-    
+})
+
+// 获取常去网站列表
+app.post('/getWebList', function(req, res){
+    let sql = 'select * from webList order by addTime'
+    util.query(sql, function(result){
+        res.send(result)
+    })
+})
+
+// 新增常去网站
+app.post('/addWebList', function(req, res){
+    let name = req.body.name
+    let url = req.body.url
+    if(name == ''){
+        res.send({code:'0', message: '网站名不能为空'})
+        return
+    }
+    if(url == ''){
+        res.send({code:'0', message: '网站链接地址不能为空'})
+        return
+    }
+    let addTime = moment().format('YYYY-MM-DD HH:mm:ss')
+    let id = util.md5(name + moment().format('X'))
+    let sql = 'insert into webList(id, name, url, addTime) values(?, ?, ?, ?)'
+    let params = [id, name, url, addTime]
+    util.insert(sql, params, function(result){
+        res.send({code:'1', message: '添加成功'})
+    })
 })
 
 // 端口监听

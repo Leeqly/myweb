@@ -9,23 +9,45 @@
 		</div>
 		<div class="lui-col-2">
 			<a href="javascript:;" @click="alertLogin()">登录</a>
-			<a href="javascript:;" @click="registerShow=true">注册</a>
+			<a href="javascript:;" @click="alertRegister()">注册</a>
 		</div>
-		<div class="dialog-box">
+		<div class="dialog-box" id="loginDialog">
 			<div class="dialog-content">
 				<div class="content">
 					<div class="form-group-block">
 						<label>用户名</label>
-						<input type="text" class="lui-input" id="username" placeholder="手机号/邮箱/用户名">
+						<input type="text" class="lui-input" v-model="loginUsername" placeholder="手机号 / 邮箱 / 用户名">
 					</div>
 					<div class="form-group-block">
 						<label>密码</label>
-						<input type="password" class="lui-input" placeholder="密码">
+						<input type="password" class="lui-input" v-model="loginPassword" placeholder="密码">
 					</div>
 				</div>
 				<div class="footer">
-					<button class="lui-btn" @click="closeThis()">取消</button>
-					<button class="lui-btn">登录</button>
+					<button class="lui-btn" @click="close()">取消</button>
+					<button class="lui-btn" @click="login()">登录</button>
+				</div>
+			</div>
+		</div>
+		<div class="dialog-box" id="regDialog">
+			<div class="dialog-content">
+				<div class="content">
+					<div class="form-group-block">
+						<label>用户名</label>
+						<input type="text" class="lui-input" v-model="regUsername" placeholder="手机号 / 邮箱 / 用户名">
+					</div>
+					<div class="form-group-block">
+						<label>密码</label>
+						<input type="password" class="lui-input" v-model="regPassword" placeholder="密码">
+					</div>
+					<div class="form-group-block">
+						<label>密码确认</label>
+						<input type="password" class="lui-input" v-model="regPassword2" placeholder="密码">
+					</div>
+				</div>
+				<div class="footer">
+					<button class="lui-btn" @click="close()">取消</button>
+					<button class="lui-btn" @click="register()">注册</button>
 				</div>
 			</div>
 		</div>
@@ -34,6 +56,7 @@
  
 <script>
 
+import axios from 'axios'
 import lui from '../liqiyuan-ui'
 
 export default {
@@ -51,24 +74,49 @@ export default {
 				{ name: '美图欣赏', href: '/picture-enjoy' }
 			],
 			logo: 'myweb',
+			loginUsername: '',
+			loginPassword: '',
+			regUsername: '',
+			regPassword: '',
+			regPassword2: '',
 		}
 	},
 	methods: {
 		alertLogin(){
-			lui.$class('dialog-box')[0].style.opacity = '1'
-			lui.$class('dialog-box')[0].style.display = 'block'
-			// let node = lui.$id('dialog-login')
-			// let btn = {
-			// 	text: '登录',
-			// 	fn: ()=>{
-			// 		console.log( lui.$id('username').value )
-			// 	}
-			// }
-			// lui.dialog(node, btn)
+			lui.openDialog('loginDialog')
 		},
-		closeThis(){
-			lui.dialogClose()
+		alertRegister(){
+			lui.openDialog('regDialog')
+		},
+		login(){
+			axios.post('http://localhost:7857/login',{
+      			username: this.loginUsername,
+      			password: this.loginPassword
+      		}).then( (response)=>{
+      			lui.msg(response.data.message)
+				if(response.data.code == '1'){
+					this.close()
+				}
+			});
+		},
+		register(){
+			axios.post('http://localhost:7857/register',{
+      			username: this.regUsername,
+      			password: this.regPassword,
+      			password2: this.regPassword2
+      		}).then( (response)=>{
+      			lui.msg(response.data.message)
+				if(response.data.code == '1'){
+					this.close()
+				}
+			});
+		},
+		close(){
+			lui.closeDialog()
 		}
+	},
+	mounted: function(){
+
 	}
 }
 </script>

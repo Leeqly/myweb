@@ -27,10 +27,7 @@ exports.insert = function(sql, params, fun){
 			return;
 		}
 		fun(result);
-	});
-	setTimeout(function(){
-		connection.end()
-	},50)	
+	});		
 }
 
 // 更新
@@ -42,7 +39,6 @@ exports.update = function(sql, params, fun){
 		}
 		fun(result);
 	});
-	connection.end();
 }
 
 // 删除
