@@ -3,7 +3,7 @@
 
 		<h4>常去网站</h4>
 
-		<a style="display:block" v-for="(item, index) in webList" :href="item.url" target="_blank">{{index + 1}}、{{item.name}}</a>
+		<a style="display:block" v-for="(item, index) in webList" @click="addVisitCount(item.id)" :href="item.url" target="_blank">{{index + 1}}、{{item.name}}</a>
 
 		
 		<button class="lui-btn" @click="openAddWebDialog()">添加</button>
@@ -62,6 +62,13 @@
 	      			lui.msg(response.data.message)
 	      			this.getWebList()
 	      			this.close()
+				});
+			},
+			addVisitCount(id){
+				axios.post('http://localhost:7857/addVisitCount',{
+	      			id: id
+	      		}).then( (response)=>{
+	      			lui.msg(response.data.message)
 				});
 			},
 			openAddWebDialog(){

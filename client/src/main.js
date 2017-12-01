@@ -35,6 +35,12 @@ const router = new VueRouter({
 	    { path: '/picture-enjoy', component: pictureEnjoy }
 	]
 })
+
+// 钩子函数
+router.beforeEach((to, from, next) => {
+    console.log( (new Date().getTime() - 1512121887342)/1000  )
+    next();
+});
  
 // 现在我们可以启动应用了！
 // 路由器会创建一个 App 实例，并且挂载到选择符 #app 匹配的元素上。

@@ -14,8 +14,7 @@
 <script>
 import Vue from 'vue'
 import axios from 'axios'
-// import { MessageBox } from 'element-ui';
-// Vue.use(MessageBox)
+
 export default {
 	data() {
 		return {
@@ -23,22 +22,16 @@ export default {
 	    }
 	},
 	methods: {
-      // open() {
-      //   this.$alert('这是一段内容', '标题名称', {
-      //     confirmButtonText: '确定',
-      //     callback: action => {
-      //       this.$message({
-      //         type: 'info',
-      //         message: `action: ${ action }`
-      //       });
-      //     }
-      //   });
-      // }
+      
     },
 	mounted: function(){
-		axios.get('http://10.10.32.101/bbs/index.php/Index/Publish/publish_data',{}).then( (response)=>{
-			console.log(response.data);
-		});
+		let name = 'test'
+		let value = 'cookietest'
+		var Days = 30;
+		var exp = new Date();
+		exp.setTime(exp.getTime() + Days*24*60*60*1000);
+		document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString();
+		console.log(8)
 	}
 }
 </script>

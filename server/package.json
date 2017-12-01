@@ -1,6 +1,8 @@
 {
   "devDependencies": {
+    "cookie-parser": "^1.4.3",
     "express": "^4.16.2",
+    "express-session": "^1.15.6",
     "moment": "^2.19.2",
     "mysql": "^2.15.0"
   }

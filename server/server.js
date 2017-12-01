@@ -3,6 +3,11 @@ const app = express()
 const util = require('./util')
 const moment = require('moment')
 
+// 端口监听
+app.listen(7857, function(){
+    console.log('Server start success at:', moment().format('YYYY-MM-DD HH:mm:ss'))
+})
+
 // 解析post提交的数据
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -27,8 +32,10 @@ app.post('/login', function(req, res){
         if(result[0]){
             let time = moment().format('YYYY-MM-DD HH:mm:ss')
             let id = result[0].id
+            let token = util.md5(username + moment().format('X'))
+            let tokenSetTime = moment().format('X')
             let updateSql = 'update username set loginTime = ? where id = ?'
-            let updateParams = [time, id]
+            let updateParams = [time, id, token, tokenSetTime]
             util.update(updateSql, updateParams, function(result2){
                 if(result2.affectedRows){
                     res.send({code:'1', message: '登录成功'})
@@ -78,7 +85,7 @@ app.post('/register', function(req, res){
 
 // 获取常去网站列表
 app.post('/getWebList', function(req, res){
-    let sql = 'select * from webList order by addTime'
+    let sql = 'select * from webList order by visitCount desc'
     util.query(sql, function(result){
         res.send(result)
     })
@@ -105,7 +112,16 @@ app.post('/addWebList', function(req, res){
     })
 })
 
-// 端口监听
-app.listen(7857, function(){
-    console.log('Server start success at:', moment().format('YYYY-MM-DD HH:mm:ss'))
+// 访问次数 + 1
+app.post('/addVisitCount', function(req, res){
+    let id = req.body.id
+    let selectSql = 'select visitCount from webList where id = "' + id + '"'
+    util.query(selectSql, function(result){
+        let count = result[0].visitCount
+        let updateSql = 'update webList set visitTime = "'+ moment().format('YYYY-MM-DD HH:mm:ss') +'", visitCount = "' + (count - 0 + 1) + '" where id = "' + id + '"'
+        util.update(updateSql, function(result2){
+            res.send({code:'1', message: '点击次数成功+1'})
+        })
+    })
 })
+
