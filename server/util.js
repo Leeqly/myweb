@@ -19,6 +19,16 @@ exports.query = function(sql, fun){
 	})
 }
 
+exports.query2 = function(sql, params, fun){
+	connection.query(sql, params, function(error, result, fields){
+		if(error){
+			console.log('[SELECT ERROR] - ', error.message);
+			return;
+		}
+		fun(result);
+	})
+}
+
 // 插入
 exports.insert = function(sql, params, fun){
 	connection.query(sql, params, function(error, result, fields){

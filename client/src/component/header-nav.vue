@@ -8,8 +8,13 @@
 			<router-link v-for="(item,index) in navList" :key="index" v-bind:to="item.href"> {{ item.name }} </router-link>
 		</div>
 		<div class="lui-col-2">
-			<a href="javascript:;" @click="alertLogin()">登录</a>
-			<a href="javascript:;" @click="alertRegister()">注册</a>
+			<div v-if="ifLogin">
+				<a href="javascript:;">{{ nickname }}</a>
+			</div>
+			<div v-else>
+				<a href="javascript:;" @click="alertLogin()">登录</a>
+				<a href="javascript:;" @click="alertRegister()">注册</a>
+			</div>
 		</div>
 		<div class="dialog-box" id="loginDialog">
 			<div class="dialog-content">
@@ -79,6 +84,7 @@ export default {
 			regUsername: '',
 			regPassword: '',
 			regPassword2: '',
+			ifLogin: false
 		}
 	},
 	methods: {
@@ -95,9 +101,12 @@ export default {
       		}).then( (response)=>{
       			lui.msg(response.data.message)
 				if(response.data.code == '1'){
+					lui.setCookie('id', response.data.id, 30*60)
+					lui.setCookie('username', response.data.username, 30*60)
+					lui.setCookie('token', response.data.token, 30*60)
 					this.close()
 				}
-			});
+			})
 		},
 		register(){
 			axios.post('http://localhost:7857/register',{
@@ -109,14 +118,32 @@ export default {
 				if(response.data.code == '1'){
 					this.close()
 				}
-			});
+			})
+		},
+		getLoginInfo(){
+			let id = lui.getCookie('id')
+			if(id == undefined){
+				this.ifLogin = false
+				return
+			}
+			axios.post('http://localhost:7857/getUsername', {
+				id: id
+			}).then((response)=>{
+				if(response.data.code == '1'){
+					this.ifLogin = true
+					this.nickname = response.data.message.nickname
+					
+				}else{
+					this.ifLogin = false
+				}
+			})
 		},
 		close(){
 			lui.closeDialog()
 		}
 	},
 	mounted: function(){
-
+		this.getLoginInfo()
 	}
 }
 </script>

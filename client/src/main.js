@@ -18,6 +18,9 @@ import summary from './component/summary.vue'
 import technology from './component/technology.vue'
 import usedWebsite from './component/used-website.vue'
 import pictureEnjoy from './component/picture-enjoy.vue'
+
+import axios from 'axios'
+import lui from './liqiyuan-ui'
  
 // 创建一个路由器实例并配置路由规则
 const router = new VueRouter({
@@ -37,9 +40,17 @@ const router = new VueRouter({
 })
 
 // 钩子函数
-router.beforeEach((to, from, next) => {
-    console.log( (new Date().getTime() - 1512121887342)/1000  )
-    next();
+router.beforeEach( (to, from, next)=>{
+	axios.post('http://localhost:7857/tokenCheck',{
+		id: lui.getCookie('id'),
+		token: lui.getCookie('token'),
+	}).then( (response)=>{
+		if(response.data.code == '1' || to.path == '/index'){
+			next();
+		}else{
+			lui.msg('请先登录')
+		}
+	})
 });
  
 // 现在我们可以启动应用了！

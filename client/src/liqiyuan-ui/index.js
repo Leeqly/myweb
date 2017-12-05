@@ -1,5 +1,5 @@
 import './lib/css/lui.css'
-import { newNode, bodyAppend, removeNode, $id, $class } from './lib/js/public'
+import { newNode, bodyAppend, removeNode, $id, $class, setCookie, getCookie } from './lib/js/public'
 import { msg, alert, confirm, closeDialog, openDialog } from './lib/js/message'
 
 let lui = {
@@ -9,7 +9,9 @@ let lui = {
 	alert: alert,
 	confirm: confirm,
 	closeDialog: closeDialog,
-	openDialog: openDialog
+	openDialog: openDialog,
+	setCookie: setCookie,
+	getCookie: getCookie
 }
 
 export default lui
