@@ -3,6 +3,7 @@ import { newNode, bodyAppend, removeNode, $id, $class, setCookie, getCookie } fr
 import { msg, alert, confirm, closeDialog, openDialog } from './lib/js/message'
 
 let lui = {
+	url: 'http://localhost:7857',
 	$id: $id,
 	$class: $class,
 	msg: msg,

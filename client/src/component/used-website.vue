@@ -45,7 +45,7 @@
 		},
 		methods: {
 			getWebList(){
-				axios.post('http://localhost:7857/getWebList').then( (response)=>{
+				axios.post( lui.url + '/getWebList').then( (response)=>{
 					this.webList = response.data
 				});
 			},
@@ -55,7 +55,7 @@
 				if(url.substr(0,7) != webPre){
 					url = webPre + url
 				}
-				axios.post('http://localhost:7857/addWebList',{
+				axios.post( lui.url + '/addWebList',{
 	      			name: this.name,
 	      			url: url
 	      		}).then( (response)=>{
@@ -65,7 +65,7 @@
 				});
 			},
 			addVisitCount(id){
-				axios.post('http://localhost:7857/addVisitCount',{
+				axios.post( lui.url + '/addVisitCount',{
 	      			id: id
 	      		}).then( (response)=>{
 	      			lui.msg(response.data.message)

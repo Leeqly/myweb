@@ -18,27 +18,27 @@ app.all('*', function(req, res, next){
     res.header("Access-Control-Allow-Origin", "*")
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE")
-    res.header("X-Powered-By",' 3.2.1')
+    res.header("X-Powered-By",'3.2.1')
     res.header("Content-Type", "application/json;charset=utf-8")
     next()
 });
 
 // 登录
 app.post('/login', function(req, res){
-    let sql = 'select id from username where username = ? and password = ?'
+    let sql = 'select * from user where username = ? and password = ?'
     let username = req.body.username
     let password = util.md5(req.body.password)
     let params = [username, password]
     util.query2(sql, params, function(result){
         if(result[0]){
-            let updateSql = 'update username set loginTime = ?, token = ? where id = ?'
+            let updateSql = 'update user set loginTime = ?, token = ? where id = ?'
             let loginTime = moment().format('YYYY-MM-DD HH:mm:ss')
             let token = util.md5(username + moment())
             let id = result[0].id
             let updateParams = [loginTime, token, id]
             util.update(updateSql, updateParams, function(result2){
                 if(result2.affectedRows){
-                    res.send({code:'1', id: id, token: token, message: '登录成功'})
+                    res.send({code:'1', id: id, nickname: result[0].nickname, token: token, message: '登录成功'})
                 }
             })
         }else{
@@ -64,13 +64,13 @@ app.post('/register', function(req, res){
         res.send({code:'0', message: '两次输入的密码不一致'})
         return
     }
-    let querySql = 'select 1 from username where username = ? limit 1'
+    let querySql = 'select 1 from user where username = ? limit 1'
     let queryParams = [username]
     util.query2(querySql, queryParams, function(result){
         if(result[0]){
             res.send({code:'0', message: '此用户名已被注册'})
         }else{
-            let insertSql = 'insert into username(id, username, nickname, password, regTime) values(?, ?, ?, ?, ?)'
+            let insertSql = 'insert into user(id, username, nickname, password, regTime) values(?, ?, ?, ?, ?)'
             let id = util.md5(username + moment().format('X'))
             password = util.md5(password)
             let regTime = moment().format('YYYY-MM-DD HH:mm:ss')
@@ -135,7 +135,7 @@ app.post('/tokenCheck', function(req, res){
         res.send({code:'0', message: '未登录'})
         return
     }
-    let sql = 'select token from username where id = ?'
+    let sql = 'select token from user where id = ?'
     let id = req.body.id
     let params = [id]
     let token = req.body.token
@@ -155,7 +155,7 @@ app.post('/getUsername', function(req, res){
         res.send({code:'0', message: 'id不能为空'})
         return
     }
-    let sql = 'select * from username where id = ?'
+    let sql = 'select * from user where id = ?'
     let params = [id]
     util.query2(sql, params, function(result){
         if(result[0] == undefined){

@@ -41,12 +41,12 @@ const router = new VueRouter({
 
 // 钩子函数
 router.beforeEach( (to, from, next)=>{
-	axios.post('http://localhost:7857/tokenCheck',{
+	axios.post( lui.url + '/tokenCheck', {
 		id: lui.getCookie('id'),
 		token: lui.getCookie('token'),
 	}).then( (response)=>{
 		if(response.data.code == '1' || to.path == '/index'){
-			next();
+			next()
 		}else{
 			lui.msg('请先登录')
 		}
